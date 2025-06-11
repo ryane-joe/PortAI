@@ -1,7 +1,10 @@
 
 from openai import OpenAI
-
-client = OpenAI(api_key="sk-83f98f92bc3b497ab5692671acdaf6c7", base_url="https://api.deepseek.com/v1")
+import os                                                                                                                                                                                                          
+from dotenv import load_dotenv, find_dotenv
+from pathlib import Path
+load_dotenv(Path(".env"))
+client = OpenAI(api_key=os.getenv("api_key"), base_url="https://api.deepseek.com/v1")
 
 response = client.chat.completions.create(
     model="deepseek-chat",
