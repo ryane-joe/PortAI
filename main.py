@@ -1,18 +1,14 @@
+from scanner import scan
+from Get_Vulns import get_vulnerabilities
 
-from openai import OpenAI
-import os                                                                                                                                                                                                          
-from dotenv import load_dotenv, find_dotenv
-from pathlib import Path
-load_dotenv(Path(".env"))
-client = OpenAI(api_key=os.getenv("api_key"), base_url="https://api.deepseek.com/v1")
+host = input("Enter a host to scan (e.g. 127.0.0.1): ").strip()
+scan_results = scan(host)
 
-response = client.chat.completions.create(
-    model="deepseek-chat",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant"},
-        {"role": "user", "content": "what are the vulnerabilities with ssh 5.4"},
-    ],
-    stream=False
-)
-
-print(response.choices[0].message.content)
+if isinstance(scan_results, dict) and "error" in scan_results:
+    print(scan_results["error"])
+else:
+    for port, info in scan_results.items():
+        service_description = info["full_service"]
+        print(f"\n🔍 Checking CVEs for service on port {port}: {service_description}")
+        cve_info = get_vulnerabilities(service_description)
+        print(cve_info)
