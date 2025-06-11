@@ -21,7 +21,7 @@ def get_vulnerabilities(service: str) -> str:
                         "You are a cybersecurity assistant that specializes in vulnerability detection. "
                         "When the user provides the name and version of a software or service, "
                         "you return a list of known CVEs associated with it, including their CVE ID, severity, "
-                        "description, and publication date. Be concise and factual."
+                        "description, and publication date. Be concise and factual. you will not give any end output like let me know if you need specific infomation etc, it will be concise to just the cve information"
                     )
                 },
                 {"role": "user", "content": f"What are the vulnerabilities with {service}?"},
